@@ -1,13 +1,69 @@
 #pragma once
 #include <algorithm>
 #include <cassert>
+#include <climits>
 #include <fstream>
+#include <iomanip>
 #include <iostream>
+#include <numeric>
 #include <sstream>
 #include <string>
 #include <vector>
 
 namespace csv {
+class table {
+private:
+  std::vector<std::vector<std::string>> vt;
+  std::vector<int> _Max;
+  int _totalMax;
+  void _setMax() {
+    for (int j = 0; j < vt[0].size(); j++) {
+      int _max = 0;
+      for (int i = 0; i < vt.size(); i++) {
+        if (vt[i][j].length() > _max)
+          _max = vt[i][j].length();
+      }
+      _Max.emplace_back(_max);
+    }
+  }
+  void setTotalMax() {
+
+    std::cout << std::endl;
+    _totalMax = std::accumulate(_Max.begin(), _Max.end(), 0);
+    return;
+  }
+  void startLine() const {
+    std::cout << " " << std::setfill('_')
+              << std::setw((_totalMax * 2) + _Max.size()) << '\n';
+  }
+  void endline() const {
+    std::cout << "|" << std::setfill('_')
+              << std::setw((_totalMax * 2) + _Max.size()) << "|" << '\n';
+  }
+  void nextLine() const {
+    std::cout << '|' << std::setfill('-')
+              << std::setw((_totalMax * 2) + _Max.size()) << "|" << '\n';
+  }
+
+public:
+  void addRow(const std::vector<std::string> &row) { vt.emplace_back(row); }
+  void print() {
+    _setMax();
+    setTotalMax();
+    startLine();
+    nextLine();
+    for (int i = 0; i < vt.size(); i++) {
+      std::cout << "|";
+      for (int j = 0; j < vt[i].size(); j++) {
+        std::cout << std::setfill(' ') << std::setw(_Max[j] * 2) << vt[i][j]
+                  << "|";
+      }
+      std::cout << '\n';
+      nextLine();
+    }
+    endline();
+  }
+};
 // template <typename... T>
 class csv {
 public:
@@ -54,7 +110,7 @@ public:
 
   std::vector<std::string> getCols() const { return colNames; }
   std::vector<std::vector<std::string>> getData() const { return data; }
-  template <typename... T> void printCols() const {
+  void printCols() const {
     for (const auto &name : colNames) {
       std::cout << name << "\t";
     }
@@ -69,12 +125,11 @@ public:
     }
   }
   void head() {
+    table vt;
     for (int i = 0; i < std::min(data.size(), 5UL); i++) {
-      for (int j = 0; j < data[i].size(); j++) {
-        std::cout << data[i][j] << "\t";
-      }
-      std::cout << std::endl;
+      vt.addRow(data[i]);
     }
+    vt.print();
   }
   int indexOf(const std::string &Colname) const {
     for (int i = 0; i < colNames.size(); i++) {
