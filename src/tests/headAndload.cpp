@@ -4,6 +4,6 @@
 
 int main() {
     csv::csv data("{filename}.csv"); // loading using constructor
-    data.head();
+    data.head(); // printing head
     return 0;
 }

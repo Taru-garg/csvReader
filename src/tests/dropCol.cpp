@@ -10,7 +10,7 @@ int main() {
 
     // dropping the column inplace
     // column can be dropped inplace or can use dropCol() to return a new csv object
-    data.dropColInplace("{colimn name}");
+    data.dropColInplace("{column name}");
 
     // printing modified csv
     data.printCols();
