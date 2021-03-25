@@ -3,7 +3,7 @@
 
 
 int main() {
-    csv::csv data("{filename}.csv");
+    csv::csv data("{filename}.csv"); // loading using constructor
     data.head();
     return 0;
 }

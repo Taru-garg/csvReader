@@ -11,7 +11,7 @@ int main() {
 
     // Extract Column Example
     // column only extracted to a string vector
-    extractedCol = data.extractCol("{colum name}");
+    extractedCol = data.extractCol("{column name}");
     
     for(auto x : extractedCol) {
         std::cout << x << std::endl;
@@ -23,7 +23,7 @@ int main() {
 
     // adding the column
     // column can be added Inplace as well as to a new csv object
-    data.addColInplace("{new colum name}", extractedCol);
+    data.addColInplace("{new column name}", extractedCol);
 
     // printing modified csv
     data.printCols();
