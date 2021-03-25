@@ -22,7 +22,7 @@ int main() {
     data.printCols();
 
     // adding the column
-    // column can be added Inplace as well as to a new csv object
+    // column can be added Inplace or we can use addCol() to return a new csv object
     data.addColInplace("{new column name}", extractedCol);
 
     // printing modified csv
